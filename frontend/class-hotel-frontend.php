@@ -187,6 +187,7 @@ class Hotel_Frontend {
 		<!-- Stepped Checkout Modal Drawer -->
 		<div id="hm-booking-modal" class="hm-modal-overlay">
 			<div class="hm-modal-container">
+				<div class="hm-modal-drag-pill" aria-hidden="true"></div>
 				<div class="hm-modal-header">
 					<h3 class="hm-modal-title">Complete Your Reservation</h3>
 					<button type="button" class="hm-modal-close" aria-label="Close">&times;</button>
@@ -212,37 +213,37 @@ class Hotel_Frontend {
 		$this->render_modal_drawer();
 		?>
 		<!-- Floating AI Concierge Widget -->
-		<div id="hm-ai-concierge" style="position: fixed; bottom: 28px; right: 28px; z-index: 9999;">
-			<button type="button" id="hm-ai-toggle-btn" style="background: var(--hm-accent-gradient); color: #fff; border: none; border-radius: 50px; padding: 14px 22px; font-weight: 600; box-shadow: 0 10px 25px rgba(180,83,9,0.35); cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.95rem;">
+		<div id="hm-ai-concierge" class="hm-ai-widget">
+			<button type="button" id="hm-ai-toggle-btn" class="hm-ai-toggle-btn">
 				<span>✨</span> AI Concierge
 			</button>
-			<div id="hm-ai-box" style="display: none; position: absolute; bottom: 65px; right: 0; width: 340px; background: #fff; border-radius: 18px; box-shadow: 0 20px 40px rgba(0,0,0,0.18); border: 1px solid #e2e8f0; overflow: hidden;">
-				<div style="background: var(--hm-primary); color: #fff; padding: 16px; display: flex; justify-content: space-between; align-items: center;">
-					<strong style="font-size: 0.95rem;">Grand Azure AI Concierge</strong>
-					<button type="button" onclick="document.getElementById('hm-ai-box').style.display='none'" style="background:none; border:none; color:#fff; font-size:1.2rem; cursor:pointer;">&times;</button>
+			<div id="hm-ai-box" class="hm-ai-box" style="display: none;">
+				<div class="hm-ai-header">
+					<strong>Grand Azure AI Concierge</strong>
+					<button type="button" class="hm-ai-close-btn" onclick="document.getElementById('hm-ai-box').style.display='none'">&times;</button>
 				</div>
-				<div id="hm-ai-messages" style="padding: 14px; height: 260px; overflow-y: auto; font-size: 0.85rem; display: flex; flex-direction: column; gap: 10px; background: #f8fafc;">
-					<div style="background: #fff; padding: 10px 12px; border-radius: 10px; border: 1px solid #e2e8f0; max-width: 85%;">
+				<div id="hm-ai-messages" class="hm-ai-messages">
+					<div class="hm-ai-msg-bot">
 						Hello! I am your personal luxury concierge. Ask me anything about room amenities, check-in policies, or dining!
 					</div>
 				</div>
-				<form id="hm-ai-form" style="display: flex; border-top: 1px solid #e2e8f0;" onsubmit="event.preventDefault(); window.sendHotelAiMsg();">
-					<input type="text" id="hm-ai-input" placeholder="Ask a question..." style="flex: 1; border: none; padding: 12px 14px; font-size: 0.85rem; outline: none;" />
-					<button type="submit" style="background: var(--hm-accent); color: #fff; border: none; padding: 0 16px; font-weight: 600; cursor: pointer;">Send</button>
+				<form id="hm-ai-form" class="hm-ai-form" onsubmit="event.preventDefault(); window.sendHotelAiMsg();">
+					<input type="text" id="hm-ai-input" class="hm-ai-input" placeholder="Ask a question..." />
+					<button type="submit" class="hm-ai-send-btn">Send</button>
 				</form>
 			</div>
 		</div>
 		<script>
 		document.getElementById('hm-ai-toggle-btn').addEventListener('click', function() {
 			var b = document.getElementById('hm-ai-box');
-			b.style.display = b.style.display === 'none' ? 'block' : 'none';
+			b.style.display = b.style.display === 'none' ? 'flex' : 'none';
 		});
 		window.sendHotelAiMsg = async function() {
 			var inp = document.getElementById('hm-ai-input');
 			var msg = inp.value.trim();
 			if (!msg) return;
 			var box = document.getElementById('hm-ai-messages');
-			box.innerHTML += '<div style="background: #0f172a; color: #fff; padding: 10px 12px; border-radius: 10px; align-self: flex-end; max-width: 85%;">' + msg + '</div>';
+			box.innerHTML += '<div class="hm-ai-msg-user">' + msg + '</div>';
 			inp.value = '';
 			box.scrollTop = box.scrollHeight;
 			try {
@@ -252,10 +253,10 @@ class Hotel_Frontend {
 					body: JSON.stringify({message: msg})
 				});
 				var data = await res.json();
-				box.innerHTML += '<div style="background: #fff; padding: 10px 12px; border-radius: 10px; border: 1px solid #e2e8f0; max-width: 85%;">' + data.reply + '</div>';
+				box.innerHTML += '<div class="hm-ai-msg-bot">' + (data.reply || 'Thank you for reaching out!') + '</div>';
 				box.scrollTop = box.scrollHeight;
 			} catch(e) {
-				box.innerHTML += '<div style="color:red; font-size:0.75rem;">Error connecting to concierge.</div>';
+				box.innerHTML += '<div class="hm-ai-msg-bot" style="color:#ef4444;">Error connecting to concierge.</div>';
 			}
 		};
 		</script>

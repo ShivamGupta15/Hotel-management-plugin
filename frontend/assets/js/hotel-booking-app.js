@@ -38,6 +38,7 @@
         overlay.className = 'hm-modal-overlay';
         overlay.innerHTML = `
           <div class="hm-modal-container">
+            <div class="hm-modal-drag-pill" aria-hidden="true"></div>
             <div class="hm-modal-header">
               <h3 class="hm-modal-title">Complete Your Reservation</h3>
               <button type="button" class="hm-modal-close" aria-label="Close">&times;</button>

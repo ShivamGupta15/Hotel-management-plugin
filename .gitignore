@@ -1,0 +1,9 @@
+# Tests
+test/
+tests/
+
+# Environment & local files
+.env
+.DS_Store
+*.log
+
