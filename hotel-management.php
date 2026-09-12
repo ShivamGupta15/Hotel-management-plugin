@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Hotel Booking & Management System
- * Plugin URI:        https://github.com/wp-hotel-management
+ * Plugin URI:        https://github.com/ShivamGupta15/Hotel-management-plugin/tree/main
  * Description:       High-performance, concurrency-safe hotel booking, inventory management, dynamic pricing, staff operations, and customer booking engine.
  * Version:           1.0.0
  * Requires at least: 6.0
